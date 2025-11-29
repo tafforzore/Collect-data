@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-gradient">
+    <div class="container">
+        <div class="row align-items-center min-vh-80">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold text-success mb-4">
+                    Découvrez la Sagesse des Plantes Médicinales
+                </h1>
+                <p class="lead mb-4">
+                    Collectionnez, partagez et explorez les vertus thérapeutiques des plantes 
+                    dans notre herbier numérique dédié à la médecine naturelle.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{{ url_for('add_plant') }}" class="btn btn-success btn-lg">
+                        <i class="fas fa-plus me-2"></i>Ajouter une Plante
+                    </a>
+                    <a href="{{ url_for('plants') }}" class="btn btn-outline-success btn-lg">
+                        <i class="fas fa-book me-2"></i>Explorer l'Herbier
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img src="{{ url_for('static', filename='images/hero-plant.png') }}" 
+                     alt="Plantes médicinales" class="img-fluid" onerror="this.style.display='none'">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col">
+                <h2 class="fw-bold">Pourquoi utiliser notre herbier ?</h2>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-seedling fa-3x text-success"></i>
+                    </div>
+                    <h4>Collection Complète</h4>
+                    <p>Enregistrez toutes les informations importantes sur vos plantes médicinales préférées.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-camera fa-3x text-success"></i>
+                    </div>
+                    <h4>Photos HD</h4>
+                    <p>Ajoutez des photos de qualité pour identifier facilement chaque plante.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-heart fa-3x text-success"></i>
+                    </div>
+                    <h4>Vertus Détailées</h4>
+                    <p>Documentez les propriétés médicinales et les utilisations thérapeutiques.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

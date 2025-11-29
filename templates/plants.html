@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-5 fw-bold text-success">
+                <i class="fas fa-book me-2"></i>Notre Herbier Médicinal
+            </h1>
+            <p class="lead">Découvrez notre collection de plantes et leurs vertus thérapeutiques.</p>
+        </div>
+    </div>
+
+    {% if plants %}
+    <div class="row g-4">
+        {% for plant in plants %}
+        <div class="col-lg-4 col-md-6">
+            <div class="card plant-card h-100 shadow">
+                {% if plant.photos and plant.photos|length > 0 %}
+                <div id="carousel{{ loop.index }}" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for photo in plant.photos %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                            <img src="data:image/jpeg;base64,{{ photo }}" 
+                                 class="card-img-top plant-image" 
+                                 alt="{{ plant.name }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if plant.photos|length > 1 %}
+                    <button class="carousel-control-prev" type="button" 
+                            data-bs-target="#carousel{{ loop.index }}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" 
+                            data-bs-target="#carousel{{ loop.index }}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="card-img-top no-image d-flex align-items-center justify-content-center">
+                    <i class="fas fa-leaf fa-4x text-muted"></i>
+                </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-success">{{ plant.name }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Vertus Médicinales</h6>
+                    <p class="card-text">{{ plant.virtues }}</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <small class="text-muted">
+                        <i class="fas fa-heart me-1"></i>
+                        {{ plant.virtues.split(',')|length }} propriété(s) documentée(s)
+                    </small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-seedling fa-5x text-muted mb-4"></i>
+        <h3 class="text-muted">Aucune plante enregistrée</h3>
+        <p class="text-muted">Commencez par ajouter votre première plante médicinale.</p>
+        <a href="{{ url_for('add_plant') }}" class="btn btn-success btn-lg">
+            <i class="fas fa-plus me-2"></i>Ajouter une Plante
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-plus-circle me-2"></i>Ajouter une Nouvelle Plante
+                    </h3>
+                </div>
+                <div class="card-body p-4">
+                    <form id="plantForm" method="POST" enctype="multipart/form-data">
+                        <!-- Nom de la plante -->
+                        <div class="mb-4">
+                            <label for="name" class="form-label fw-bold">Nom de la Plante</label>
+                            <input type="text" class="form-control form-control-lg" 
+                                   id="name" name="name" required 
+                                   placeholder="Ex: Gingembre, Aloe Vera, Menthe...">
+                        </div>
+
+                        <!-- Vertus médicinales -->
+                        <div class="mb-4">
+                            <label for="virtues" class="form-label fw-bold">Vertus Médicinales</label>
+                            <textarea class="form-control" id="virtues" name="virtues" 
+                                      rows="4" required
+                                      placeholder="Décrivez les propriétés thérapeutiques (Ex: Anti-inflammatoire, digestion, énergie...)"></textarea>
+                            <div class="form-text">
+                                Séparez les différentes vertus par des virgules.
+                            </div>
+                        </div>
+
+                        <!-- Upload photos -->
+                        <div class="mb-4">
+                            <label for="photos" class="form-label fw-bold">Photos de la Plante</label>
+                            <input type="file" class="form-control" id="photos" 
+                                   name="photos" multiple accept="image/*">
+                            <div class="form-text">
+                                Vous pouvez sélectionner plusieurs images. Formats acceptés: JPG, PNG, GIF.
+                            </div>
+                        </div>
+
+                        <!-- Aperçu des images -->
+                        <div id="imagePreview" class="row g-2 mb-4" style="display: none;">
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Aperçu des Images</label>
+                            </div>
+                        </div>
+
+                        <!-- Boutons -->
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-save me-2"></i>Enregistrer la Plante
+                            </button>
+                            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-arrow-left me-2"></i>Retour
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
