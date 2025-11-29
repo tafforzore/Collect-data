@@ -3,15 +3,18 @@ import requests
 import json
 import base64
 import os
+import csv
+import io
+from flask import make_response
 from werkzeug.utils import secure_filename
-
+# 1WmQ6_Ms5ho9mQBa4abYkrz47WAJXbfEHZN7_bZCzvKM
 app = Flask(__name__)
 app.secret_key = 'votre_cle_secrete_ici'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max
 
 # URL de votre Google Apps Script
-GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzAZksClzf5hQKC6QJrR7aeJQfuQQQ0hKbl8NE1UpRWlQqZouVn7mN0guiW8STlPJYlNw/exec"
+GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyoIB5cs79v2-66jVPLomTdf2mfvdRQq_WgYbqtDjpORJ36AsdG4vtqBDE3n9NssCsnpw/exec"
 
 # Créer le dossier uploads s'il n'existe pas
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
@@ -84,15 +87,11 @@ def add_plant():
 
 @app.route('/plants')
 def plants():
+    plants_data = []
     try:
-        # Récupérer les plantes depuis l'API
-        response = requests.get(GOOGLE_SCRIPT_URL)
-        if response.status_code == 200:
-            plants_data = response.json()
-        else:
-            plants_data = []
-    except:
-        plants_data = []
+        print("cool")
+    except Exception as e:
+        print(f"Erreur lors de la récupération du CSV : {e}")
     
     return render_template('plants.html', plants=plants_data)
 
@@ -115,6 +114,24 @@ def api_add_plant():
         
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)})
+    
+@app.route('/plants/download-csv')
+def download_csv():
+    """Télécharger les données en CSV"""
+    try:
+        response = requests.get(GOOGLE_SCRIPT_URL+"?mode=csv")
+        if response.status_code == 200:
+            # Créer la réponse avec le CSV
+            output = make_response(response.text)
+            output.headers["Content-Disposition"] = "attachment; filename=plantes_medicinales.csv"
+            output.headers["Content-type"] = "text/csv; charset=utf-8"
+            return output
+        else:
+            flash("Erreur lors du téléchargement du CSV", "error")
+            return redirect(url_for('plants'))
+    except Exception as e:
+        flash(f"Erreur: {str(e)}", "error")
+        return redirect(url_for('plants'))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
